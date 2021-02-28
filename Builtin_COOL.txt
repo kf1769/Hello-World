@@ -1,0 +1,136 @@
+*** Test Cases ***
+Call Method
+    [Documentation]    创建一个List对象，
+    ...    然后使用list的append方法，给它添加一个元素
+    ...
+    ...    Call Method | 操作对象 | 方法名 | 参数
+    ${x}    Set Variable    xxx
+    ${LLL}    Create List    a    b    c
+    Call Method    ${LLL}    append    ${x}
+    log    ${LLL}
+
+Catenate
+    [Documentation]    把items连接起来，并返回一个string，
+    ...    这个关键字有用的地方在于，可以指定连接的字符
+    ...
+    ...    参数：*items \ \ 应该可以支持多个
+    ...
+    ...    ${str2} = Catenate SEPARATOR=--- Hello world
+    ...    返回值 \ \ \ \ \ 关键字 \ \ \ 连接字符，默认为空格
+    ...
+    ...    ${str3} = Catenate SEPARATOR= Hello world
+    ...    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 指定为空，那就是紧挨着
+    ${str1}    Catenate    SEPARATOR=&    Bonnie    Clyde
+    Log    ${str1}
+    Comment    abcdefg
+
+Comment
+    [Documentation]    Comment 关键字，提供注释功能
+    Comment    notthing    will    happen    in    here
+
+Continue For Loop
+    [Documentation]    相当于Python里面的 continue    #:FOR    ${yo1}    IN RANGE    11    #log    log--->${yo1}
+    FOR    ${yo1}    IN RANGE    11
+        Run Keyword If    6<${yo1} <10    Continue For Loop
+        Log    Yeah!${yo1}!
+    END
+
+Continue For Loop If
+    [Documentation]    continue + if
+    FOR    ${yo1}    IN RANGE    11
+        Continue For Loop If    0<${yo1} <6
+        Log    Yeah!${yo1}!
+    END
+
+Convert To Binary
+    [Documentation]    将一个数字转换为2进制数的字符串，
+    ...
+    ...    用base= 指定原始值是几进制
+    ...
+    ...    用prefix= 指定显示转换后数字的前缀
+    ...
+    ...    用length= 指定显示的长度，如果实际长度没达到会补齐到这么长
+    ${result} =    Convert To Binary    10    length=4
+    ${result} =    Convert To Binary    F    base=16
+    ${result} =    Convert To Binary    -2    prefix=B    length=4    #加一个显示前缀，并且长度补齐到4（如果不够4的话）
+
+Convert To Boolean
+    [Documentation]    把参数值转换为布尔值，
+    ...
+    ...    如果参数是字符串 True 或 False 那么就返回真或假的布尔值；
+    ...
+    ...    如果参数是其他值，那么就相当于用python的bool函数对字符串进行计算得到得值
+    ${haha}=    Convert To Boolean    False    #True
+    Run Keyword If    ${haha}    Log    yo!
+    ${haha}=    Convert To Boolean    xxx
+    Run Keyword If    ${haha}    Log    yoyo!
+
+Convert To Hex
+    [Documentation]    把参数值转换为十六进制
+    ...
+    ...    参数： item, base=None, prefix=None, length=None, lowercase=False
+    ${result}=    Convert To Hex    255    prefix=0x
+
+Convert To Integer
+    [Documentation]    将Item转换为10进制
+    ...
+    ...    item, base=None
+    ...
+    ...    可以用base指定原始进制，， 也可以直接用前缀表示：如0x 0b
+    ${result}    Convert To Integer    FF    base=16
+
+Convert To Number
+    [Documentation]    用来把item转换为浮点数
+    ...
+    ...    item, precision=None
+    ...
+    ...    precision 是用来控制做四舍五入的位数的
+    ...
+    ...    如果是正数 如1,2,3， 那么就意味着在小数点后的第几位后的位对做四舍五入，
+    ...
+    ...    如果是0 ， 那么就意味着对小数点后面的位做四舍五入
+    ...
+    ...    如果是个负数，那就是根据数值-1,-2,-3 对 个 十 百 \ 位 做四舍五入
+    ${result}    Convert To Number    123.3838    -2
+
+#Convert To Octal
+
+Convert To String
+    [Documentation]    把给出的item转换成 Unicode 的 string
+    ${result}    Convert To String    hahahaha
+
+Create List
+    [Documentation]    把关键字后面的参数们都创建成一个list
+    ...
+    ...    可以被赋予 一个scalar 也可以 给一个list
+    ${LLL}    Create List    a    b    c
+
+Evaluate
+    [Documentation]    expression, modules=None
+    ...
+    ...    后跟参数：python表达式， 再后面可以是需要用到的module的名字（可选）
+    ${result}    Evaluate    os.getcwd()    os
+
+Exit For Loop
+    [Documentation]    相当于break吧
+    @{yo}    Create List    a    b    c    d
+    FOR    ${x}    IN    @{yo}
+        log    ${x}
+        Run Keyword If    '${x}' == 'd'    Exit For Loop
+    END
+
+Exit For Loop If
+    [Documentation]    If \ ...
+    ...     \ \
+    ...     \ break
+    @{yo}    Create List    a    b    c    d
+    FOR    ${x}    IN    @{yo}
+        log    ${x}
+        Exit For Loop If    '${x}' == 'd'
+    END
+
+#Fail
+#    ${x}    Set Variable    888
+#    ${xx}    Convert To Integer    ${x}
+#    Run Keyword If    ${xx}!=666    Fail    Not Waht U want!
+#    Log    xxxx
