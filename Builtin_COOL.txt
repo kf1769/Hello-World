@@ -129,8 +129,8 @@ Exit For Loop If
         Exit For Loop If    '${x}' == 'd'
     END
 
-#Fail
-#    ${x}    Set Variable    888
-#    ${xx}    Convert To Integer    ${x}
-#    Run Keyword If    ${xx}!=666    Fail    Not Waht U want!
-#    Log    xxxx
+Fail
+    ${x}    Set Variable    888
+    ${xx}    Convert To Integer    ${x}
+    Run Keyword If    ${xx}!=666    Fail    Not Waht U want!
+    Log    xxxx
